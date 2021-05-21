@@ -1,0 +1,106 @@
+
+{% load staticfiles %}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="registration/home.html">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Home</title>
+</head>
+<body>
+
+
+<div class="container">
+    <div class="jumbotron">
+        <h1> <b>List Of Students Who Have Registered</b> </h1>    
+        <a href="/registration/index"><b><h4>Click for Registration Form</h4></b></a>
+        <p></p>
+        <p></p>
+        <p></p>
+
+        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+            <table class="table table-bordered table-striped mb-0">
+                <thead>
+                    <th><b>S.NO</b></th>
+                    <th><b>Name</b></th>
+                    <th><b>Phone Number</b> </th>
+                    <th><b>Admission Number</b> </th>
+                    <th><b>Class</b> </th>
+                    <th><b>Section</b></th>
+                </thead>
+                
+                {% for std in info %}
+                
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ std.FullName }}</td>
+                    <td>{{ std.PhoneNo }}</td>
+                    <td>{{ std.AdmissionNo }}</td>
+                    <td>{{ std.Standard }}</td>
+                    <td>{{ std.Section }}</td>
+
+
+                    <!-- <td><button class="edit" id="{{ std.id }}" >EDIT</button></td> -->
+                   <td> <button class="edit" id="{{ std.id }}"/>EDIT<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" 
+</svg></button></td>
+                    <td><button class="delete" id="{{std.id}}">DELETE </button></td>
+                </tr>
+                {% endfor %}
+    
+            </table>
+
+        </div>
+
+        
+
+        </div>
+        
+        
+    </div>
+</div>
+<script type="text/javascript">
+  $(document).on('click','.edit',function(){
+    var id = this.id;
+    // alert(id)
+    window.open("/registration/index/?id="+id,'_blank')
+    })
+
+  $(document).on('click','.delete',function(){
+    var id = this.id;
+    // alert(id)
+    var data={
+        'id':id,
+    }
+   
+   $.ajax({
+
+      url:"/registration/delete_student_details/",
+      type:"get", 
+      dataType:"json",
+      data:data,
+
+      success:function(obj){
+        alert("ugug")
+        window.open("/registration/index/","_self")  
+      },
+      error:function(err){
+        // alert("Something went wrong..."+JSON.stringify(err,null,4))
+      }
+      
+    })
+    
+    // window.location.reload();
+  })
+  // location.reload()
+
+  
+</script>
+
+
